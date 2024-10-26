@@ -225,12 +225,11 @@ ax.set_yticks(np.arange(2))
 ax.set_xticklabels([str(digit) for digit in range(2, 10)])
 ax.set_yticklabels(['Classified as 0', 'Classified as 1'])
 
-# Add text annotations to each cell
+# text annotations
 for i in range(2):
     for j in range(8):
         ax.text(j, i, classification_counts[i, j], ha='center', va='center', color='black')
 
-# Add color bar and titles
 ax.set_xlabel('Digits (2 to 9)')
 ax.set_ylabel('Classification')
 ax.set_title('Classification Counts of Challenge Set by Perceptron Model')

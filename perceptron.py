@@ -50,10 +50,14 @@ class Perceptron:
             elif prediction == 0 and label == 1:
                 fn += 1
 
-        total = len(df)
-        error_fraction = (fp + fn) / total
+        #tpr and tnr for balanced accuracy
+        tpr = tp / (tp + fn) if (tp + fn) > 0 else 0  # True Positive Rate for the positive class
+        tnr = tn / (tn + fp) if (tn + fp) > 0 else 0  # True Negative Rate for the negative class
+        balanced_accuracy = (tpr + tnr) / 2
+        error_fraction = 1 - balanced_accuracy  # Error is defined as 1 - Balanced Accuracy
+
         precision = tp / (tp + fp) if (tp + fp) > 0 else 0
-        recall = tp / (tp + fn) if (tp + fn) > 0 else 0
+        recall = tpr  
         f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
 
         return {
@@ -64,8 +68,10 @@ class Perceptron:
             'error_fraction': error_fraction,
             'precision': precision,
             'recall': recall,
-            'f1_score': f1_score
+            'f1_score': f1_score,
+            'balanced_accuracy': balanced_accuracy
         }
+
 
     def train(self, df, epochs=1, learning_rate=0.1,target_error=0):
         errors = []
@@ -79,10 +85,11 @@ class Perceptron:
                 label = row['label']
                 prediction = self.forward(image)
                 
-                # Update the weights
                 error = label - prediction
                 if error != 0:
                     total_error += 1
+                
+                #doing the entire list in one go
                 self.weights += learning_rate * error * np.insert(image, 0, 1)
             
             # Calculate and record the error rate
