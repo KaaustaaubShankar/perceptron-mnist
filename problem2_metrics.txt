@@ -1,0 +1,120 @@
+Initial Metrics for Digit 9:
+Error Fraction: 0.107
+Precision: 0.1111111111111111
+Recall: 0.01
+F1 Score: 0.01834862385321101
+
+After Training Metrics for Digit 9:
+Error Fraction: 0.064
+Precision: 0.65
+Recall: 0.78
+F1 Score: 0.709090909090909
+
+Initial Metrics for Digit 0:
+Error Fraction: 0.392
+Precision: 0.19958847736625515
+Recall: 0.97
+F1 Score: 0.33105802047781574
+
+After Training Metrics for Digit 0:
+Error Fraction: 0.03
+Precision: 0.782258064516129
+Recall: 0.97
+F1 Score: 0.8660714285714286
+
+Initial Metrics for Digit 1:
+Error Fraction: 0.344
+Precision: 0.09333333333333334
+Recall: 0.28
+F1 Score: 0.14
+
+After Training Metrics for Digit 1:
+Error Fraction: 0.015
+Precision: 0.9047619047619048
+Recall: 0.95
+F1 Score: 0.9268292682926829
+
+Initial Metrics for Digit 2:
+Error Fraction: 0.461
+Precision: 0.07728337236533958
+Recall: 0.33
+F1 Score: 0.1252371916508539
+
+After Training Metrics for Digit 2:
+Error Fraction: 0.085
+Precision: 0.546583850931677
+Recall: 0.88
+F1 Score: 0.6743295019157088
+
+Initial Metrics for Digit 3:
+Error Fraction: 0.405
+Precision: 0.06303724928366762
+Recall: 0.22
+F1 Score: 0.09799554565701558
+
+After Training Metrics for Digit 3:
+Error Fraction: 0.071
+Precision: 0.5935483870967742
+Recall: 0.92
+F1 Score: 0.7215686274509804
+
+Initial Metrics for Digit 4:
+Error Fraction: 0.444
+Precision: 0.09624413145539906
+Recall: 0.41
+F1 Score: 0.155893536121673
+
+After Training Metrics for Digit 4:
+Error Fraction: 0.053
+Precision: 0.6715328467153284
+Recall: 0.92
+F1 Score: 0.7763713080168776
+
+Initial Metrics for Digit 5:
+Error Fraction: 0.66
+Precision: 0.1
+Recall: 0.7
+F1 Score: 0.175
+
+After Training Metrics for Digit 5:
+Error Fraction: 0.084
+Precision: 0.5493827160493827
+Recall: 0.89
+F1 Score: 0.6793893129770993
+
+Initial Metrics for Digit 6:
+Error Fraction: 0.349
+Precision: 0.12386706948640483
+Recall: 0.41
+F1 Score: 0.1902552204176334
+
+After Training Metrics for Digit 6:
+Error Fraction: 0.049
+Precision: 0.6834532374100719
+Recall: 0.95
+F1 Score: 0.7949790794979079
+
+Initial Metrics for Digit 7:
+Error Fraction: 0.385
+Precision: 0.0668693009118541
+Recall: 0.22
+F1 Score: 0.10256410256410257
+
+After Training Metrics for Digit 7:
+Error Fraction: 0.041
+Precision: 0.7657657657657657
+Recall: 0.85
+F1 Score: 0.8056872037914692
+
+Initial Metrics for Digit 8:
+Error Fraction: 0.283
+Precision: 0.07834101382488479
+Recall: 0.17
+F1 Score: 0.10725552050473186
+
+After Training Metrics for Digit 8:
+Error Fraction: 0.084
+Precision: 0.5571428571428572
+Recall: 0.78
+F1 Score: 0.65
+

@@ -1,0 +1,126 @@
+Metrics for Digit 0:
+  Before Training:
+    Error Fraction: 0.5760
+    Precision: 0.1020
+    Recall: 0.6100
+    F1 Score: 0.1748
+  After Training:
+    Error Fraction: 0.0170
+    Precision: 0.8609
+    Recall: 0.9900
+    F1 Score: 0.9209
+
+========================================
+
+Metrics for Digit 1:
+  Before Training:
+    Error Fraction: 0.2490
+    Precision: 0.2665
+    Recall: 0.8500
+    F1 Score: 0.4057
+  After Training:
+    Error Fraction: 0.0190
+    Precision: 0.8522
+    Recall: 0.9800
+    F1 Score: 0.9116
+
+========================================
+
+Metrics for Digit 2:
+  Before Training:
+    Error Fraction: 0.7660
+    Precision: 0.1073
+    Recall: 0.9100
+    F1 Score: 0.1920
+  After Training:
+    Error Fraction: 0.0570
+    Precision: 0.6641
+    Recall: 0.8700
+    F1 Score: 0.7532
+
+========================================
+
+Metrics for Digit 3:
+  Before Training:
+    Error Fraction: 0.3920
+    Precision: 0.0829
+    Recall: 0.2900
+    F1 Score: 0.1289
+  After Training:
+    Error Fraction: 0.0440
+    Precision: 0.7593
+    Recall: 0.8200
+    F1 Score: 0.7885
+
+========================================
+
+Metrics for Digit 4:
+  Before Training:
+    Error Fraction: 0.7640
+    Precision: 0.1103
+    Recall: 0.9400
+    F1 Score: 0.1975
+  After Training:
+    Error Fraction: 0.0370
+    Precision: 0.8119
+    Recall: 0.8200
+    F1 Score: 0.8159
+
+========================================
+
+Metrics for Digit 5:
+  Before Training:
+    Error Fraction: 0.1530
+    Precision: 0.2151
+    Recall: 0.2000
+    F1 Score: 0.2073
+  After Training:
+    Error Fraction: 0.0660
+    Precision: 0.6214
+    Recall: 0.8700
+    F1 Score: 0.7250
+
+========================================
+
+Metrics for Digit 6:
+  Before Training:
+    Error Fraction: 0.2220
+    Precision: 0.0159
+    Recall: 0.0200
+    F1 Score: 0.0177
+  After Training:
+    Error Fraction: 0.0490
+    Precision: 0.6861
+    Recall: 0.9400
+    F1 Score: 0.7932
+
+========================================
+
+Metrics for Digit 7:
+  Before Training:
+    Error Fraction: 0.3080
+    Precision: 0.0667
+    Recall: 0.1600
+    F1 Score: 0.0941
+  After Training:
+    Error Fraction: 0.0460
+    Precision: 0.7077
+    Recall: 0.9200
+    F1 Score: 0.8000
+
+========================================
+
+Metrics for Digit 8:
+  Before Training:
+    Error Fraction: 0.2910
+    Precision: 0.1423
+    Recall: 0.3800
+    F1 Score: 0.2071
+  After Training:
+    Error Fraction: 0.0700
+    Precision: 0.6293
+    Recall: 0.7300
+    F1 Score: 0.6759
+
+========================================
+
