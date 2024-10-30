@@ -1,120 +1,120 @@
 Initial Metrics for Digit 9:
-Error Fraction: 0.107
-Precision: 0.1111111111111111
-Recall: 0.01
-F1 Score: 0.01834862385321101
+Error Fraction: 0.5016666666666667
+Precision: 0.09930715935334873
+Recall: 0.43
+F1 Score: 0.16135084427767354
 
 After Training Metrics for Digit 9:
-Error Fraction: 0.064
-Precision: 0.65
-Recall: 0.78
-F1 Score: 0.709090909090909
+Error Fraction: 0.14611111111111108
+Precision: 0.6637168141592921
+Recall: 0.75
+F1 Score: 0.7042253521126761
 
 Initial Metrics for Digit 0:
-Error Fraction: 0.392
-Precision: 0.19958847736625515
-Recall: 0.97
-F1 Score: 0.33105802047781574
+Error Fraction: 0.3127777777777778
+Precision: 0.16443594646271512
+Recall: 0.86
+F1 Score: 0.27608346709470305
 
 After Training Metrics for Digit 0:
-Error Fraction: 0.03
-Precision: 0.782258064516129
-Recall: 0.97
-F1 Score: 0.8660714285714286
+Error Fraction: 0.02055555555555555
+Precision: 0.8376068376068376
+Recall: 0.98
+F1 Score: 0.9032258064516129
 
 Initial Metrics for Digit 1:
-Error Fraction: 0.344
-Precision: 0.09333333333333334
-Recall: 0.28
-F1 Score: 0.14
+Error Fraction: 0.5661111111111111
+Precision: 0.07979626485568761
+Recall: 0.47
+F1 Score: 0.13642960812772134
 
 After Training Metrics for Digit 1:
-Error Fraction: 0.015
-Precision: 0.9047619047619048
+Error Fraction: 0.03500000000000003
+Precision: 0.8407079646017699
 Recall: 0.95
-F1 Score: 0.9268292682926829
+F1 Score: 0.892018779342723
 
 Initial Metrics for Digit 2:
-Error Fraction: 0.461
-Precision: 0.07728337236533958
-Recall: 0.33
-F1 Score: 0.1252371916508539
+Error Fraction: 0.4394444444444444
+Precision: 0.11554921540656206
+Recall: 0.81
+F1 Score: 0.20224719101123595
 
 After Training Metrics for Digit 2:
-Error Fraction: 0.085
-Precision: 0.546583850931677
-Recall: 0.88
-F1 Score: 0.6743295019157088
+Error Fraction: 0.10444444444444445
+Precision: 0.65625
+Recall: 0.84
+F1 Score: 0.736842105263158
 
 Initial Metrics for Digit 3:
-Error Fraction: 0.405
-Precision: 0.06303724928366762
-Recall: 0.22
-F1 Score: 0.09799554565701558
+Error Fraction: 0.6133333333333333
+Precision: 0.052995391705069124
+Recall: 0.23
+F1 Score: 0.08614232209737827
 
 After Training Metrics for Digit 3:
-Error Fraction: 0.071
-Precision: 0.5935483870967742
-Recall: 0.92
-F1 Score: 0.7215686274509804
+Error Fraction: 0.09944444444444445
+Precision: 0.6187050359712231
+Recall: 0.86
+F1 Score: 0.7196652719665272
 
 Initial Metrics for Digit 4:
-Error Fraction: 0.444
-Precision: 0.09624413145539906
-Recall: 0.41
-F1 Score: 0.155893536121673
+Error Fraction: 0.3944444444444444
+Precision: 0.16129032258064516
+Recall: 0.5
+F1 Score: 0.24390243902439024
 
 After Training Metrics for Digit 4:
-Error Fraction: 0.053
-Precision: 0.6715328467153284
-Recall: 0.92
-F1 Score: 0.7763713080168776
+Error Fraction: 0.10055555555555551
+Precision: 0.8118811881188119
+Recall: 0.82
+F1 Score: 0.8159203980099502
 
 Initial Metrics for Digit 5:
-Error Fraction: 0.66
-Precision: 0.1
-Recall: 0.7
-F1 Score: 0.175
+Error Fraction: 0.5372222222222223
+Precision: 0.09189842805320435
+Recall: 0.76
+F1 Score: 0.16396979503775622
 
 After Training Metrics for Digit 5:
-Error Fraction: 0.084
-Precision: 0.5493827160493827
-Recall: 0.89
-F1 Score: 0.6793893129770993
+Error Fraction: 0.10000000000000009
+Precision: 0.6142857142857143
+Recall: 0.86
+F1 Score: 0.7166666666666668
 
 Initial Metrics for Digit 6:
-Error Fraction: 0.349
-Precision: 0.12386706948640483
-Recall: 0.41
-F1 Score: 0.1902552204176334
+Error Fraction: 0.36277777777777787
+Precision: 0.17647058823529413
+Recall: 0.57
+F1 Score: 0.2695035460992908
 
 After Training Metrics for Digit 6:
-Error Fraction: 0.049
-Precision: 0.6834532374100719
-Recall: 0.95
-F1 Score: 0.7949790794979079
+Error Fraction: 0.050000000000000044
+Precision: 0.7230769230769231
+Recall: 0.94
+F1 Score: 0.8173913043478259
 
 Initial Metrics for Digit 7:
-Error Fraction: 0.385
-Precision: 0.0668693009118541
-Recall: 0.22
-F1 Score: 0.10256410256410257
+Error Fraction: 0.5716666666666667
+Precision: 0.06993006993006994
+Recall: 0.3
+F1 Score: 0.11342155009451796
 
 After Training Metrics for Digit 7:
-Error Fraction: 0.041
-Precision: 0.7657657657657657
-Recall: 0.85
-F1 Score: 0.8056872037914692
+Error Fraction: 0.0838888888888889
+Precision: 0.7747747747747747
+Recall: 0.86
+F1 Score: 0.8151658767772512
 
 Initial Metrics for Digit 8:
-Error Fraction: 0.283
-Precision: 0.07834101382488479
-Recall: 0.17
-F1 Score: 0.10725552050473186
+Error Fraction: 0.4211111111111111
+Precision: 0.12544802867383512
+Recall: 0.7
+F1 Score: 0.21276595744680848
 
 After Training Metrics for Digit 8:
-Error Fraction: 0.084
-Precision: 0.5571428571428572
-Recall: 0.78
-F1 Score: 0.65
+Error Fraction: 0.1383333333333333
+Precision: 0.5369127516778524
+Recall: 0.8
+F1 Score: 0.6425702811244981
 

@@ -5,11 +5,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.utils import resample
 
-# Function to load the dataset with binary labels for each target digit
+
 def loadsets(digit):
     data = np.loadtxt('HW3_datafiles/MNISTnumImages5000_balanced.txt').reshape((5000, 28, 28))
 
-    # Define ranges for each digit
+    # ranges for each digit in teh txt
     digit_ranges = {
         0: (0, 400, 400, 500),
         1: (500, 900, 900, 1000),
@@ -23,11 +23,11 @@ def loadsets(digit):
         9: (4500, 4900, 4900, 5000)
     }
     
-    # Initialize lists to hold training and test data and labels
+    # setting up some lists
     train_data, train_labels = [], []
     test_data, test_labels = [], []
 
-    # Loop through each digit, assign labels based on the target digit
+    # split the data up
     for num in range(10):
         start_train, end_train, start_test, end_test = digit_ranges[num]
         train_data.append(data[start_train:end_train])
@@ -38,24 +38,33 @@ def loadsets(digit):
         train_labels.append(np.full(end_train - start_train, label))
         test_labels.append(np.full(end_test - start_test, label))
 
-    # Concatenate all training and test data and labels
+    # combination
     train_data = np.concatenate(train_data)
     train_labels = np.concatenate(train_labels)
     test_data = np.concatenate(test_data)
     test_labels = np.concatenate(test_labels)
+    print(len(train_data), len(train_labels), len(test_data), len(test_labels))
 
-    # Convert to DataFrames and shuffle training set
+    '''
+    plt.imshow(train_data[1234], cmap='gray')
+    plt.title(f"Digit: {digit }Label: {train_labels[1234]}")
+    plt.colorbar()
+    plt.show()
+    '''
+
+    # make dataframes for organization
     train_df = pd.DataFrame({'data': list(train_data), 'label': train_labels})
     test_df = pd.DataFrame({'data': list(test_data), 'label': test_labels})
     train_df = train_df.sample(frac=1).reset_index(drop=True)
     
     return train_df, test_df
 
-# Function to train a perceptron with a balanced dataset by upsampling label 1 since its smaller
-def train_perceptron(perceptron, train_df, learning_rate=0.01, max_epochs=1000, target_error=0.05):
+#this will train the perceptron for a digit according to how problem 2 wants it
+def train_perceptron(perceptron, train_df, learning_rate=0.001, max_epochs=1000, target_error=0.05):
     errors_per_epoch, epochs_completed = [], 0
     for epoch in range(max_epochs):
-        # Balance classes by upsampling minority class (label 1)
+
+        #make classes
         class_1 = train_df[train_df['label'] == 1]
         class_0 = train_df[train_df['label'] == 0]
         
@@ -67,7 +76,7 @@ def train_perceptron(perceptron, train_df, learning_rate=0.01, max_epochs=1000, 
         errors_per_epoch.extend(errors)
         epochs_completed += epoch_completed
         
-        # Early stopping if the error rate meets the target error
+        # stop ahead
         if errors[-1] <= target_error:
             print(f"Training for digit completed with below target error of {target_error} at epoch {epochs_completed}")
             return errors_per_epoch, epochs_completed
@@ -81,73 +90,94 @@ perceptron_9 = Perceptron()
 perceptrons = [Perceptron() for _ in range(9)] + [perceptron_9]
 datasets = [loadsets(digit) for digit in range(9)]
 
-# Evaluate initial metrics for digit 9
-initial_metrics_9 = perceptron_9.evaluate_metrics(test_df_9)
+initial_metrics = [0]*10
+after_training_metrics = [0]*10
+initial_metrics[9] = perceptron_9.evaluate_metrics(test_df_9)
 
-# Train perceptron for digit 9
-print("\nTraining perceptron for digit 9")
+print(initial_metrics[9]["error_fraction"])
 errors_9, epochs_9 = train_perceptron(perceptron_9, train_df_9)
+after_training_metrics[9]= perceptron_9.evaluate_metrics(test_df_9)
+print(after_training_metrics[9]["error_fraction"])
 
-# Evaluate after-training metrics for digit 9
-after_training_metrics_9 = perceptron_9.evaluate_metrics(test_df_9)
+plt.figure(figsize=(10, 6))  
 
-# Write metrics for digit 9 to the file
-with open('problem2_metrics.txt', 'w') as f:
-    f.write("Initial Metrics for Digit 9:\n")
-    f.write(f"Error Fraction: {initial_metrics_9['error_fraction']}\n")
-    f.write(f"Precision: {initial_metrics_9['precision']}\n")
-    f.write(f"Recall: {initial_metrics_9['recall']}\n")
-    f.write(f"F1 Score: {initial_metrics_9['f1_score']}\n\n")
-    
-    f.write("After Training Metrics for Digit 9:\n")
-    f.write(f"Error Fraction: {after_training_metrics_9['error_fraction']}\n")
-    f.write(f"Precision: {after_training_metrics_9['precision']}\n")
-    f.write(f"Recall: {after_training_metrics_9['recall']}\n")
-    f.write(f"F1 Score: {after_training_metrics_9['f1_score']}\n\n")
+for digit in range(9):
+    train_df, test_df = datasets[digit]
+    initial_metrics[digit] = perceptrons[digit].evaluate_metrics(test_df)
+    errors, epochs = train_perceptron(perceptrons[digit], train_df, max_epochs=epochs_9)
+    after_training_metrics[digit] = perceptrons[digit].evaluate_metrics(test_df)
+    plt.plot(errors, label=f'Digit {digit}')
 
 
-
-# Train and plot perceptrons for digits 0–8
-plt.figure(figsize=(10, 6))  # Set figure size for better visualization
-
-with open('problem2_metrics.txt', 'a') as f:  # Append to the file for digits 0–8
-    for digit in range(9):
-        train_df, test_df = datasets[digit]
-        print(f"\nTraining perceptron for digit {digit}")
-        
-        # Evaluate initial metrics on the test set for each digit
-        initial_metrics = perceptrons[digit].evaluate_metrics(test_df)
-        
-        # Write initial metrics for the digit to the file
-        f.write(f"Initial Metrics for Digit {digit}:\n")
-        f.write(f"Error Fraction: {initial_metrics['error_fraction']}\n")
-        f.write(f"Precision: {initial_metrics['precision']}\n")
-        f.write(f"Recall: {initial_metrics['recall']}\n")
-        f.write(f"F1 Score: {initial_metrics['f1_score']}\n\n")
-        
-        # Train the perceptron for the current digit and retrieve errors per epoch
-        errors, epochs = train_perceptron(perceptrons[digit], train_df, max_epochs=epochs_9)
-        
-        # Evaluate after-training metrics on the test set
-        after_training_metrics = perceptrons[digit].evaluate_metrics(test_df)
-        
-        # Write after-training metrics to the file
-        f.write(f"After Training Metrics for Digit {digit}:\n")
-        f.write(f"Error Fraction: {after_training_metrics['error_fraction']}\n")
-        f.write(f"Precision: {after_training_metrics['precision']}\n")
-        f.write(f"Recall: {after_training_metrics['recall']}\n")
-        f.write(f"F1 Score: {after_training_metrics['f1_score']}\n\n")
-        
-        # Plot errors for each digit
-        plt.plot(errors, label=f'Digit {digit}')
-
-# Finalize the plot with the target error line and labels
 plt.plot(errors_9, label='Digit 9')  # Plot errors for digit 9
 plt.axhline(y=0.05, color='red', linestyle='--', label='Target Error (0.05)')
 plt.xlabel('Epochs', fontsize=12)
 plt.ylabel('Error Rate', fontsize=12)
 plt.title('Training Error per Epoch for Perceptrons Targeting Each Digit (0-9)', fontsize=14)
 plt.legend(title="Digits", title_fontsize='13', fontsize='11')
-plt.grid(True, linestyle='--', alpha=0.7)  # Add grid for better readability
+plt.grid(True, linestyle='--', alpha=0.7)  
 
+plt.show()
+
+metrics_labels = ['Error Fraction', 'Precision', 'Recall', 'F1 Score']
+digits = range(10)
+x = np.arange(len(digits))  
+width = 0.35  
+
+#setting up the pairs
+error_before = [initial_metrics[digit]['error_fraction'] for digit in digits]
+error_after = [after_training_metrics[digit]['error_fraction'] for digit in digits]
+precision_before = [initial_metrics[digit]['precision'] for digit in digits]
+precision_after = [after_training_metrics[digit]['precision'] for digit in digits]
+recall_before = [initial_metrics[digit]['recall'] for digit in digits]
+recall_after = [after_training_metrics[digit]['recall'] for digit in digits]
+f1_before = [initial_metrics[digit]['f1_score'] for digit in digits]
+f1_after = [after_training_metrics[digit]['f1_score'] for digit in digits]
+
+#error fraction
+fig, ax = plt.subplots(figsize=(12, 6))
+ax.bar(x - width/2, error_before, width, label='Before Training')
+ax.bar(x + width/2, error_after, width, label='After Training')
+ax.set_xlabel('Digits')
+ax.set_ylabel('Error Fraction')
+ax.set_title('Error Fraction Before and After Training by Digit')
+ax.set_xticks(x)
+ax.set_xticklabels(digits)
+ax.legend()
+plt.show()
+
+#precision
+fig, ax = plt.subplots(figsize=(12, 6))
+ax.bar(x - width/2, precision_before, width, label='Before Training')
+ax.bar(x + width/2, precision_after, width, label='After Training')
+ax.set_xlabel('Digits')
+ax.set_ylabel('Precision')
+ax.set_title('Precision Before and After Training by Digit')
+ax.set_xticks(x)
+ax.set_xticklabels(digits)
+ax.legend()
+plt.show()
+
+#recall
+fig, ax = plt.subplots(figsize=(12, 6))
+ax.bar(x - width/2, recall_before, width, label='Before Training')
+ax.bar(x + width/2, recall_after, width, label='After Training')
+ax.set_xlabel('Digits')
+ax.set_ylabel('Recall')
+ax.set_title('Recall Before and After Training by Digit')
+ax.set_xticks(x)
+ax.set_xticklabels(digits)
+ax.legend()
+plt.show()
+
+# f1score
+fig, ax = plt.subplots(figsize=(12, 6))
+ax.bar(x - width/2, f1_before, width, label='Before Training')
+ax.bar(x + width/2, f1_after, width, label='After Training')
+ax.set_xlabel('Digits')
+ax.set_ylabel('F1 Score')
+ax.set_title('F1 Score Before and After Training by Digit')
+ax.set_xticks(x)
+ax.set_xticklabels(digits)
+ax.legend()
 plt.show()

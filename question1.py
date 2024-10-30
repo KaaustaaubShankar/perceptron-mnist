@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from perceptron import Perceptron
 
-np.random.seed(42)
+
 def loadMNIST():
 
     """
@@ -59,73 +59,52 @@ def loadMNIST():
 
     return train_df, test_df, challenge_df
 
-
-def evaluate_perceptron_with_bias_range(perceptron, df, bias_weight, range_size=10):
-    # Generate the range of bias values around the trained bias weight
+def evaluate_perceptron_with_bias_range(perceptron, df, range_size=10):
+    bias_weight = perceptron.bias
     bias_values = np.linspace(bias_weight - range_size, bias_weight + range_size, 21)
-    
-    # Store metrics for each bias value
-    error_fractions = []
-    precisions = []
-    recalls = []
-    f1_scores = []
-    roc_points = []
+    error_fractions, precisions, recalls, f1_scores, roc_points = [], [], [], [], []
+    original_bias = perceptron.bias
 
-    original_weights = perceptron.weights.copy()
-
-    # Evaluate metrics for each bias value
     for bias in bias_values:
-        # Set the bias weight
-        perceptron.weights[0] = bias
-        
-        # Evaluate metrics on the test set
+        perceptron.bias = bias
         metrics = perceptron.evaluate_metrics(df)
         error_fractions.append(metrics['error_fraction'])
         precisions.append(metrics['precision'])
         recalls.append(metrics['recall'])
         f1_scores.append(metrics['f1_score'])
-        
-        # For ROC curve, store TPR (recall) and FPR
         tpr = metrics['recall']
         fpr = metrics['fp'] / (metrics['fp'] + metrics['tn']) if (metrics['fp'] + metrics['tn']) > 0 else 0
         roc_points.append((fpr, tpr))
     
-    # Restore original weights
-    perceptron.weights = original_weights
+    perceptron.bias = original_bias
 
-    # Plot metrics against bias values
     plt.figure(figsize=(12, 8))
     plt.plot(bias_values, error_fractions, label='Error Fraction', marker='o')
     plt.plot(bias_values, precisions, label='Precision', marker='o')
     plt.plot(bias_values, recalls, label='Recall', marker='o')
     plt.plot(bias_values, f1_scores, label='F1 Score', marker='o')
-    plt.xlabel('Bias Weight (w0)')
+    plt.xlabel('Bias')
     plt.ylabel('Metrics')
-    plt.title('Model Metrics vs. Bias Weight')
+    plt.title('Model Metrics vs. Bias')
     plt.legend()
     plt.grid()
     plt.show()
 
-    # Plot ROC curve
     roc_points = np.array(roc_points)
     plt.figure(figsize=(8, 6))
     plt.plot(roc_points[:, 0], roc_points[:, 1], marker='o')
-    plt.plot([0, 1], [0, 1], 'r--')  # Diagonal line
+    plt.plot([0, 1], [0, 1], 'r--')
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
     plt.title('ROC Curve')
     plt.grid()
     plt.show()
 
-    # Estimate the best bias value (theta*)
-    # Find the bias value with the highest TPR for a given FPR (could use other criteria as needed)
-    best_index = np.argmax(roc_points[:, 1] - roc_points[:, 0])  # Maximize TPR - FPR
+    best_index = np.argmax(roc_points[:, 1] - roc_points[:, 0])
     theta_star = bias_values[best_index]
-
-    # Report if the trained value is the best
     is_best = (bias_weight == theta_star)
     if is_best:
-        print("The trained bias weight is the best value.")
+        print(f"The trained bias weight is the best value. {theta_star}")
     else:
         print(f"Estimated best bias value (θ*): {theta_star}")
     
@@ -136,24 +115,30 @@ train_df, test_df, challenge_df = loadMNIST()
 
 #question 2
 model = Perceptron()
-model.save_initial_weights()
+model.save_initial_weights() #this is being saved to a file
 
 #question 3
 error = model.evaluate_metrics(train_df) ["error_fraction"]
 print(f"Error Fraction based off of training set: {error:.2f}")
+
+#stats based off test dataset
 before_training_stats = model.evaluate_metrics(test_df)
 print(before_training_stats)
 
 #question 4
-errors,_= model.train(train_df, epochs=1000, learning_rate=0.01)
-print(errors)
+error_rate,_= model.train(train_df, epochs=25, learning_rate=0.001,target_error=0.01,stop_early=False)
+print(error_rate)
 
 #question 5
-plt.plot(errors)
-plt.xlabel('Epochs')
-plt.ylabel('Number of misclassifications')
-plt.title('Perceptron Training Error')
+plt.plot(error_rate, marker='o')
+for i, rate in enumerate(error_rate):
+    if (i+1) % 5 == 0:
+        plt.text(i, rate, f'{rate:.4f}', ha='center', va='bottom')
+plt.xlabel('Epochs (k=50)')
+plt.ylabel('Error Rate')
+plt.title('Perceptron Training Error vs Epochs')
 plt.show()
+
 
 #question 6
 after_training_stats = model.evaluate_metrics(test_df)
@@ -181,11 +166,11 @@ plt.tight_layout()
 plt.show()
 
 #question 7
-evaluate_perceptron_with_bias_range(model, test_df, model.weights[0], range_size=10)
+evaluate_perceptron_with_bias_range(model, test_df, range_size=10)
 
 #question 8
-initial_weights = np.loadtxt('initial_weights.txt')[1:].reshape(28, 28)
-trained_weights = model.weights[1:].reshape(28, 28)  # Exclude bias weight
+initial_weights = np.loadtxt('initial_weights.txt')[:784].reshape(28, 28)
+trained_weights = model.weights.reshape(28, 28)  # Exclude bias weight
 
 fig, axes = plt.subplots(1, 2, figsize=(12, 6))
 
