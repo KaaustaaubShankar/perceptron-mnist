@@ -172,16 +172,19 @@ evaluate_perceptron_with_bias_range(model, test_df, range_size=10)
 initial_weights = np.loadtxt('initial_weights.txt')[:784].reshape(28, 28)
 trained_weights = model.weights.reshape(28, 28)  # Exclude bias weight
 
+print(f"InitialWeights: {np.sum(initial_weights)}")
+print(f"Final Weights: {np.sum(trained_weights)}")
+
 fig, axes = plt.subplots(1, 2, figsize=(12, 6))
 
 # Initial weights heat map
-axes[0].imshow(initial_weights, cmap='gray', aspect='auto')
+axes[0].imshow(initial_weights, cmap='coolwarm', aspect='auto')
 axes[0].set_title('Initial Weights Heat Map')
 axes[0].set_xlabel('Weight Index')
 axes[0].set_ylabel('Weight Index')
 
 # Trained weights heat map
-axes[1].imshow(trained_weights, cmap='gray', aspect='auto')
+axes[1].imshow(trained_weights, cmap='coolwarm', aspect='auto')
 axes[1].set_title('Trained Weights Heat Map')
 axes[1].set_xlabel('Weight Index')
 axes[1].set_ylabel('Weight Index')

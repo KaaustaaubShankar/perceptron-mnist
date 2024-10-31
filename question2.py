@@ -59,31 +59,54 @@ def loadsets(digit):
     
     return train_df, test_df
 
-#this will train the perceptron for a digit according to how problem 2 wants it
-def train_perceptron(perceptron, train_df, learning_rate=0.001, max_epochs=1000, target_error=0.05):
-    errors_per_epoch, epochs_completed = [], 0
-    for epoch in range(max_epochs):
 
-        #make classes
+def train_perceptron(perceptron, train_df, learning_rate=0.015, max_epochs=1000, target_error=0.025):
+    errors_per_epoch, epochs_completed = [], 0
+
+    for epoch in range(max_epochs):
+        # Separate classes
         class_1 = train_df[train_df['label'] == 1]
         class_0 = train_df[train_df['label'] == 0]
+
+        print(f"Class 0: {len(class_0)} Class 1: {len(class_1)}")
         
-        class_1_upsampled = resample(class_1, replace=True, n_samples=len(class_0), random_state=epoch)
-        balanced_train_df = pd.concat([class_0, class_1_upsampled]).sample(frac=1).reset_index(drop=True)
+        # Resample to create 800 samples for class 1 and 400 samples for class 0
+        class_1_resampled = resample(class_1, replace=True, n_samples=600, random_state=epoch)
+        class_0_resampled = resample(class_0, replace=False, n_samples=150, random_state=epoch)
         
+        #Combine the resampled datasets and shuffle
+        balanced_train_df = pd.concat([class_0_resampled, class_1_resampled]).sample(frac=1).reset_index(drop=True)
+        
+        print("balanced_train_df", len(balanced_train_df))
+        label_counts = balanced_train_df['label'].value_counts()
+        print(f"Label counts in balanced_train_df: {label_counts.to_dict()}")
+
+
+        '''
+        # Display a random image from the training dataframe
+        random_index = np.random.randint(len(train_df))
+        random_image = train_df.iloc[random_index]['data']
+        random_label = train_df.iloc[random_index]['label']
+        
+        plt.imshow(random_image, cmap='gray')
+        plt.title(f"Random Image - Label: {random_label}")
+        plt.colorbar()
+        plt.show()
+        '''
+        
+
         # Train perceptron for one epoch
         errors, epoch_completed = perceptron.train(balanced_train_df, epochs=1, learning_rate=learning_rate, target_error=target_error)
         errors_per_epoch.extend(errors)
         epochs_completed += epoch_completed
-        
-        # stop ahead
+
+        # Stop early if the target error rate is reached
         if errors[-1] <= target_error:
             print(f"Training for digit completed with below target error of {target_error} at epoch {epochs_completed}")
             return errors_per_epoch, epochs_completed
     
     print(f"Reached max epochs for digit with final error {errors_per_epoch[-1]:.4f}")
     return errors_per_epoch, max_epochs
-
 # Train perceptron for digit 9 to determine the number of epochs needed
 train_df_9, test_df_9 = loadsets(9)
 perceptron_9 = Perceptron()
@@ -95,7 +118,7 @@ after_training_metrics = [0]*10
 initial_metrics[9] = perceptron_9.evaluate_metrics(test_df_9)
 
 print(initial_metrics[9]["error_fraction"])
-errors_9, epochs_9 = train_perceptron(perceptron_9, train_df_9)
+errors_9, epochs_9 = train_perceptron(perceptron_9, train_df_9,learning_rate=0.001)
 after_training_metrics[9]= perceptron_9.evaluate_metrics(test_df_9)
 print(after_training_metrics[9]["error_fraction"])
 
@@ -110,7 +133,7 @@ for digit in range(9):
 
 
 plt.plot(errors_9, label='Digit 9')  # Plot errors for digit 9
-plt.axhline(y=0.05, color='red', linestyle='--', label='Target Error (0.05)')
+plt.axhline(y=0.025, color='red', linestyle='--', label='Target Error (0.025)')
 plt.xlabel('Epochs', fontsize=12)
 plt.ylabel('Error Rate', fontsize=12)
 plt.title('Training Error per Epoch for Perceptrons Targeting Each Digit (0-9)', fontsize=14)
