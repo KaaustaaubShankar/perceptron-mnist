@@ -60,7 +60,7 @@ def loadsets(digit):
     return train_df, test_df
 
 
-def train_perceptron(perceptron, train_df, learning_rate=0.015, max_epochs=1000, target_error=0.025):
+def train_perceptron(perceptron, train_df, learning_rate=0.03, max_epochs=1000, target_error=0.0175):
     errors_per_epoch, epochs_completed = [], 0
 
     for epoch in range(max_epochs):
@@ -70,17 +70,16 @@ def train_perceptron(perceptron, train_df, learning_rate=0.015, max_epochs=1000,
 
         print(f"Class 0: {len(class_0)} Class 1: {len(class_1)}")
         
-        # Resample to create 800 samples for class 1 and 400 samples for class 0
-        class_1_resampled = resample(class_1, replace=True, n_samples=600, random_state=epoch)
-        class_0_resampled = resample(class_0, replace=False, n_samples=150, random_state=epoch)
+        # Resample
+        class_1_resampled = resample(class_1, replace=True, n_samples=4000, random_state=epoch)
+        class_0_resampled = resample(class_0, replace=False, n_samples=3600, random_state=epoch)
         
         #Combine the resampled datasets and shuffle
         balanced_train_df = pd.concat([class_0_resampled, class_1_resampled]).sample(frac=1).reset_index(drop=True)
         
-        print("balanced_train_df", len(balanced_train_df))
+        #print("balanced_train_df", len(balanced_train_df))
         label_counts = balanced_train_df['label'].value_counts()
-        print(f"Label counts in balanced_train_df: {label_counts.to_dict()}")
-
+        #print(f"Label counts in balanced_train_df: {label_counts.to_dict()}")
 
         '''
         # Display a random image from the training dataframe
@@ -133,7 +132,7 @@ for digit in range(9):
 
 
 plt.plot(errors_9, label='Digit 9')  # Plot errors for digit 9
-plt.axhline(y=0.025, color='red', linestyle='--', label='Target Error (0.025)')
+plt.axhline(y=0.0175, color='red', linestyle='--', label='Target Error (0.0175)')
 plt.xlabel('Epochs', fontsize=12)
 plt.ylabel('Error Rate', fontsize=12)
 plt.title('Training Error per Epoch for Perceptrons Targeting Each Digit (0-9)', fontsize=14)
@@ -159,48 +158,88 @@ f1_after = [after_training_metrics[digit]['f1_score'] for digit in digits]
 
 #error fraction
 fig, ax = plt.subplots(figsize=(12, 6))
-ax.bar(x - width/2, error_before, width, label='Before Training')
-ax.bar(x + width/2, error_after, width, label='After Training')
+bars_before = ax.bar(x - width/2, error_before, width, label='Before Training')
+bars_after = ax.bar(x + width/2, error_after, width, label='After Training')
 ax.set_xlabel('Digits')
 ax.set_ylabel('Error Fraction')
 ax.set_title('Error Fraction Before and After Training by Digit')
 ax.set_xticks(x)
 ax.set_xticklabels(digits)
 ax.legend()
+
+for bar in bars_before:
+    height = bar.get_height()
+    ax.annotate(f'{height:.2f}', xy=(bar.get_x() + bar.get_width() / 2, height),
+                xytext=(0, 3), textcoords="offset points", ha='center', va='bottom')
+for bar in bars_after:
+    height = bar.get_height()
+    ax.annotate(f'{height:.2f}', xy=(bar.get_x() + bar.get_width() / 2, height),
+                xytext=(0, 3), textcoords="offset points", ha='center', va='bottom')
+
 plt.show()
 
 #precision
 fig, ax = plt.subplots(figsize=(12, 6))
-ax.bar(x - width/2, precision_before, width, label='Before Training')
-ax.bar(x + width/2, precision_after, width, label='After Training')
+bars_before = ax.bar(x - width/2, precision_before, width, label='Before Training')
+bars_after = ax.bar(x + width/2, precision_after, width, label='After Training')
 ax.set_xlabel('Digits')
 ax.set_ylabel('Precision')
 ax.set_title('Precision Before and After Training by Digit')
 ax.set_xticks(x)
 ax.set_xticklabels(digits)
 ax.legend()
+
+for bar in bars_before:
+    height = bar.get_height()
+    ax.annotate(f'{height:.2f}', xy=(bar.get_x() + bar.get_width() / 2, height),
+                xytext=(0, 3), textcoords="offset points", ha='center', va='bottom')
+for bar in bars_after:
+    height = bar.get_height()
+    ax.annotate(f'{height:.2f}', xy=(bar.get_x() + bar.get_width() / 2, height),
+                xytext=(0, 3), textcoords="offset points", ha='center', va='bottom')
+
 plt.show()
 
 #recall
 fig, ax = plt.subplots(figsize=(12, 6))
-ax.bar(x - width/2, recall_before, width, label='Before Training')
-ax.bar(x + width/2, recall_after, width, label='After Training')
+bars_before = ax.bar(x - width/2, recall_before, width, label='Before Training')
+bars_after = ax.bar(x + width/2, recall_after, width, label='After Training')
 ax.set_xlabel('Digits')
 ax.set_ylabel('Recall')
 ax.set_title('Recall Before and After Training by Digit')
 ax.set_xticks(x)
 ax.set_xticklabels(digits)
 ax.legend()
+
+for bar in bars_before:
+    height = bar.get_height()
+    ax.annotate(f'{height:.2f}', xy=(bar.get_x() + bar.get_width() / 2, height),
+                xytext=(0, 3), textcoords="offset points", ha='center', va='bottom')
+for bar in bars_after:
+    height = bar.get_height()
+    ax.annotate(f'{height:.2f}', xy=(bar.get_x() + bar.get_width() / 2, height),
+                xytext=(0, 3), textcoords="offset points", ha='center', va='bottom')
+
 plt.show()
 
 # f1score
 fig, ax = plt.subplots(figsize=(12, 6))
-ax.bar(x - width/2, f1_before, width, label='Before Training')
-ax.bar(x + width/2, f1_after, width, label='After Training')
+bars_before = ax.bar(x - width/2, f1_before, width, label='Before Training')
+bars_after = ax.bar(x + width/2, f1_after, width, label='After Training')
 ax.set_xlabel('Digits')
 ax.set_ylabel('F1 Score')
 ax.set_title('F1 Score Before and After Training by Digit')
 ax.set_xticks(x)
 ax.set_xticklabels(digits)
 ax.legend()
+
+for bar in bars_before:
+    height = bar.get_height()
+    ax.annotate(f'{height:.2f}', xy=(bar.get_x() + bar.get_width() / 2, height),
+                xytext=(0, 3), textcoords="offset points", ha='center', va='bottom')
+for bar in bars_after:
+    height = bar.get_height()
+    ax.annotate(f'{height:.2f}', xy=(bar.get_x() + bar.get_width() / 2, height),
+                xytext=(0, 3), textcoords="offset points", ha='center', va='bottom')
+
 plt.show()

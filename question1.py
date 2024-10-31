@@ -153,7 +153,10 @@ fig, ax = plt.subplots(figsize=(12, 6))
 bar1 = ax.bar(index, before_values, bar_width, label='Before Training', color='blue')
 bar2 = ax.bar(index + bar_width, after_values, bar_width, label='After Training', color='green')
 
-# Adding labels, title, and legend
+for i in range(len(metrics)):
+    ax.text(index[i], before_values[i] + 0.01, f'{before_values[i]:.2f}', ha='center', va='bottom', color='blue')
+    ax.text(index[i] + bar_width, after_values[i] + 0.01, f'{after_values[i]:.2f}', ha='center', va='bottom', color='green')
+
 ax.set_xlabel('Metrics')
 ax.set_ylabel('Values')
 ax.set_title('Comparison of Model Metrics Before and After Training')
